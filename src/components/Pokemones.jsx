@@ -6,7 +6,7 @@ import { obtenerPokemonesAccion,obtenerSiguientePagina } from '../redux/pokeDuck
 const Pokemones = () => {
 
     const dispatch = useDispatch()
-    const pokemones = useSelector(store => store.pokemones.array)
+    const pokemones = useSelector(store => store.pokemones.results)
    
 
     return (
