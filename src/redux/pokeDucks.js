@@ -2,9 +2,9 @@ import axios from "axios"
 
 
 //constantes
-const dataInicial = [
+const dataInicial = {
     array : []
-]
+}
 //Types
 const OBTENER_POKEMONES_EXITO = "OBTENER_POKEMONES_EXITO"
 
@@ -23,7 +23,7 @@ export default function pokeReducer(state = dataInicial, action){
 
 //acciones
 
-export function obtenerPokemonesAccion = () => async(dispatch,getState) =>{
+export const obtenerPokemonesAccion = () => async (dispatch,getState) =>{
     try {
         const res = await axios.get("https://pokeapi.co/api/v2/pokemon?offset=0&limit=20")
         dispatch({
