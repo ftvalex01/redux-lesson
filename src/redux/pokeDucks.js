@@ -16,6 +16,7 @@ const dataInicial = {
 const OBTENER_POKEMONES_EXITO = "OBTENER_POKEMONES_EXITO"
 const SIGUIENTE_POKEMONES_EXITO = "SIGUIENTE_POKEMONES_EXITO"
 const ANTERIOR_POKEMONES_EXITO = "ANTERIOR_POKEMONES_EXITO"
+const OBTENER_DETALLE_POKEMON = "OBTENER_DETALLE_POKEMON"
 
 //reducer
 export default function pokeReducer(state = dataInicial, action){
@@ -32,12 +33,43 @@ export default function pokeReducer(state = dataInicial, action){
             return{
                 ...state,...action.payload
             }
+        case OBTENER_DETALLE_POKEMON:
+            return{
+                ...state,unPokemon:action.payload
+            }
             default:
                 return state
     }
 }
 
 //acciones
+
+
+export const obtenerDetallePokemon = (url) => async(dispatch)=>{
+
+    if(url === undefined){
+        url = 'https://pokeapi.co/api/v2/pokemon/1/'
+    }
+
+
+    try {
+        const res = await axios.get(url)
+        dispatch({
+            type: OBTENER_DETALLE_POKEMON,
+            payload:{
+                name:res.data.name,
+                ancho:res.data.weight,
+                alto:res.data.height,
+                foto:res.data.sprites.front_default
+            }
+        })
+    } catch (error) {
+        console.log(error)
+    }
+    
+}
+
+
 
 export const obtenerPokemonesAccion = () => async (dispatch,getState) =>{
 

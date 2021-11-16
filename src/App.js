@@ -13,11 +13,11 @@ function App() {
 
 
   return (
-    <div className="container">
     <Provider store={store}>
+    <div className="container mt-3">
         <Pokemones/>
-     </Provider>   
     </div>
+    </Provider> 
   );
 }
 
