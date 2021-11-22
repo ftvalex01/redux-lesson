@@ -3,9 +3,12 @@ import thunk from 'redux-thunk'
 //import { composeWithDevTools } from 'redux-devtools-extension'
 
 import pokeReducer from './pokeDucks'
+import usuarioReducer from './usuarioDucks'
+
 
 const rootReducer = combineReducers({
-    pokemones: pokeReducer
+    pokemones: pokeReducer,
+    usuario: usuarioReducer
 })
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;//config google chrome extension
