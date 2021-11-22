@@ -62,3 +62,12 @@ export const ingresoUsuario = () => async(dispatch) =>{
         })
     }
 }
+
+export const leerUserActive = () => (dispatch) =>{
+    if(localStorage.getItem('usuario')){
+        dispatch({
+            type:USUARIO_EXITO,
+            payload: JSON.parse(localStorage.getItem('usuario'))
+        })
+    }
+}
