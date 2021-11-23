@@ -1,6 +1,8 @@
 import firebase from "firebase/app";
 import 'firebase/auth'
 
+import 'firebase/firestore'
+
 const firebaseConfig = {
   apiKey: "AIzaSyDqiHsZy43ZOAjkUAlpC1XCdU0cO21JcnI",
   authDomain: "pokemon-3f3e1.firebaseapp.com",
@@ -14,5 +16,6 @@ const firebaseConfig = {
  firebase.initializeApp(firebaseConfig);
 
  const auth = firebase.auth()
+ const db = firebase.firestore()
 
- export {auth , firebase}
+ export {auth , firebase , db}

@@ -1,4 +1,4 @@
-import {auth,firebase} from '../firebase'
+import {auth,firebase,db} from '../firebase'
 
 
 //data inicial
@@ -44,17 +44,32 @@ export const ingresoUsuario = () => async(dispatch) =>{
 
         const provider = new firebase.auth.GoogleAuthProvider();
         const res = await auth.signInWithPopup(provider)
-        dispatch({
-            type:USUARIO_EXITO,
-            payload: {
+
+        const usuario = {
             uid:res.user.uid,
-            email:res.user.email
+            email:res.user.email,
+            displayName:res.user.displayName,
+            photoURL:res.user.photoURL
+        }
+
+        const usuarioDB = await db.collection('usuarios').doc(usuario.email).get()
+            if(usuarioDB.exists){
+                dispatch({
+                    type:USUARIO_EXITO,
+                    payload: usuarioDB.data()
+                })
+                localStorage.setItem('usuario',JSON.stringify(usuario))
+            }else{
+                db.collection('usuarios').doc(usuario.email).set(usuario)
+                dispatch({
+                    type:USUARIO_EXITO,
+                    payload: usuario
+                })
+                localStorage.setItem('usuario',JSON.stringify(usuario))
             }
-        })
-        localStorage.setItem('usuario',JSON.stringify({
-            uid:res.user.uid,
-            email:res.user.email
-        }))
+            
+
+    
         
 
     } catch (error) {
