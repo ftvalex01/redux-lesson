@@ -1,4 +1,4 @@
-import {auth,firebase,db} from '../firebase'
+import {auth,firebase,db,storage} from '../firebase'
 
 
 //data inicial
@@ -23,7 +23,7 @@ export default function usuarioReducer(state = dataInicial,action){
         case USUARIO_ERROR:
             return{...dataInicial}
         case USUARIO_EXITO:
-            return{...state, loading:false, activo:true , user:action.payload.user}
+            return{...state, loading:false, activo:true , user:action.payload}
         case CERRAR_SESION:
             return{...dataInicial}
         default:
@@ -97,3 +97,54 @@ export const cerrarSesion = () =>(dispatch)=>{
         type: CERRAR_SESION
     })
 }
+
+export const actualizarUsuarioAccion = (nombreActualizado) => async(dispatch,getState)=>{
+    dispatch({
+        type: LOADING
+    })
+
+    const {user} = getState().usuario
+
+    try {
+        await db.collection('usuarios').doc(user.email).update({
+            displayName: nombreActualizado
+        })
+        const usuario = {
+            ...user,
+            displayName: nombreActualizado
+        }
+        dispatch({
+            type: USUARIO_EXITO,
+            payload:usuario
+        })
+        localStorage.setItem('usuario',JSON.stringify(usuario))
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export const editarFotoAccion = (imagenEditada)=> async(dispatch,getState)=>{
+    dispatch({
+        type:LOADING
+    })
+    const {user} = getState().usuario
+    try {
+        const imagenRef = await storage.ref().child(user.email).child('foto perfil')
+        await imagenRef.put(imagenEditada)
+        const imagenURL = await imagenRef.getDownloadURL()
+        await db.collection('usuarios').doc(user.email).update({
+            photoURL: imagenURL
+        })
+        const usuario = {
+            ...user,
+            photoURL: imagenURL
+        }
+        dispatch({
+            type:USUARIO_EXITO,
+            payload: usuario
+        })
+        localStorage.setItem('usuario',JSON.stringify(usuario))
+    } catch (error) {
+        console.log(error)
+    }
+} 

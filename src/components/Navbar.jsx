@@ -26,6 +26,7 @@ const Navbar = (props) => {
                 activo ?(
                     <>
                     <NavLink className="btn btn-dark mx-2" to="/" exact>Inicio</NavLink>
+                    <NavLink className="btn btn-dark mx-2" to="/perfil" exact>Perfil Usuario</NavLink>
                     <button className="btn btn-dark mx-2" onClick={()=>(cerrarSesionActiva())}>cerrar sesion</button>
                     </>
                 ) : (
